@@ -60,7 +60,9 @@ intern_bot = jerk (j) ->
       console.log body
   ###
 
-  ### Urban dictionary
+  j.watch_for /^!def (.+)$/, (message) ->
+    term = message.match_data[1]
+    return if not term
     Request.get "http://www.urbandictionary.com/define.php?term=#{term}", (err, response, body) ->
       return message.say("Could not find definition") if err
 
@@ -69,8 +71,8 @@ intern_bot = jerk (j) ->
         def = window.jQuery('div.definition').first().text()
         return message.say("Could not find definition") if not def
 
-        message.say "#{term}: #{def}"
-  ###
+        intern_bot.say message.user, "#{term}: #{def}"
+
   currentVote = null
   votes = {}
   voted = {}
@@ -113,5 +115,4 @@ intern_bot = jerk (j) ->
 
   j.watch_for /^!vote-help/, (message) ->
     message.say "Available commands: !vote-start !vote !vote-status !vote-end"
-
-intern_bot.connect options
+.connect options
