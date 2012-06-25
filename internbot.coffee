@@ -73,6 +73,19 @@ intern_bot = jerk (j) ->
 
         intern_bot.say message.user, "#{term}: #{def}"
 
+  # Delicious copypasta
+  j.watch_for /^!!def (.+)$/, (message) ->
+    term = message.match_data[1]
+    return if not term
+    Request.get "http://www.urbandictionary.com/define.php?term=#{term}", (err, response, body) ->
+      return message.say("Could not find definition") if err
+
+      jsdom.env { html: body, scripts: ['http://code.jquery.com/jquery-1.6.min.js'] }, (err, window) ->
+        return message.say("Could not find definition") if err
+        def = window.jQuery('div.definition').first().text()
+        return message.say("Could not find definition") if not def
+        message.say "#{term}: #{def}"
+
   currentVote = null
   votes = {}
   voted = {}
