@@ -90,6 +90,9 @@ intern_bot = jerk (j) ->
         return message.say("Could not find definition") if not def
         message.say "#{term}: #{def}"
 
+  j.watch_for /^!source/, (message) ->
+    message.say "https://gist.github.com/0c4348776ddeec695441"
+
   currentVote = null
   votes = {}
   voted = {}
