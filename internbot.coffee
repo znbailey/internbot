@@ -16,14 +16,19 @@ options =
   channels: [process.env.SEDBOT_CHANNEL || "#yourchannel"]
 
 intern_bot = jerk (j) ->
-  j.watch_for /^(.+)$/, (message) ->
-    result = sed_regexp.exec message.match_data[1]
+  j.watch_for /^(([a-zA-Z_0-9]+):)?(.+)$/, (message) ->
+    user = message.match_data[2] || message.user
+    console.log message.match_data
+    console.log user
 
-    return (last_said[message.user] = message.match_data[1]) if not result
+    lastMessage = last_said[user]
 
-    return if not last_said[message.user]?
+    result = sed_regexp.exec message.match_data[3]
+    return (last_said[message.user] = message.match_data[3]) if not result
 
-    command = "echo '#{last_said[message.user].replace /'/g, "'\"'\"'"}' | #{sed_binary} -e' #{result[1].replace /'/g, "'\"'\"'"}'"
+    return if not lastMessage?
+
+    command = "echo '#{lastMessage.replace /'/g, "'\"'\"'"}' | #{sed_binary} -e' #{result[1].replace /'/g, "'\"'\"'"}'"
     exec command, (error, stdout, stderr) ->
       return if error
 
@@ -64,8 +69,8 @@ intern_bot = jerk (j) ->
     term = message.match_data[1]
     return if not term
 
-    term = encodeURIComponent term
-    Request.get "http://www.urbandictionary.com/define.php?term=#{term}", (err, response, body) ->
+    escaped_term = encodeURIComponent term
+    Request.get "http://www.urbandictionary.com/define.php?term=#{escaped_term}", (err, response, body) ->
       return message.say("Could not find definition") if err
 
       jsdom.env { html: body, scripts: ['http://code.jquery.com/jquery-1.6.min.js'] }, (err, window) ->
@@ -76,19 +81,19 @@ intern_bot = jerk (j) ->
         intern_bot.say message.user, "#{term}: #{def}"
 
   # Delicious copypasta
-  j.watch_for /^!!def (.+)$/, (message) ->
-    term = message.match_data[1]
-    return if not term
+  #j.watch_for /^!!def (.+)$/, (message) ->
+    #term = message.match_data[1]
+    #return if not term
 
-    term = encodeURIComponent term
-    Request.get "http://www.urbandictionary.com/define.php?term=#{term}", (err, response, body) ->
-      return message.say("Could not find definition") if err
+    #escaped_term = encodeURIComponent term
+    #Request.get "http://www.urbandictionary.com/define.php?term=#{escaped_term}", (err, response, body) ->
+      #return message.say("Could not find definition") if err
 
-      jsdom.env { html: body, scripts: ['http://code.jquery.com/jquery-1.6.min.js'] }, (err, window) ->
-        return message.say("Could not find definition") if err
-        def = window.jQuery('div.definition').first().text()
-        return message.say("Could not find definition") if not def
-        message.say "#{term}: #{def}"
+      #jsdom.env { html: body, scripts: ['http://code.jquery.com/jquery-1.6.min.js'] }, (err, window) ->
+        #return message.say("Could not find definition") if err
+        #def = window.jQuery('div.definition').first().text()
+        #return message.say("Could not find definition") if not def
+        #message.say "#{term}: #{def}"
 
   j.watch_for /^!source/, (message) ->
     message.say "https://gist.github.com/0c4348776ddeec695441"
