@@ -18,8 +18,6 @@ options =
 intern_bot = jerk (j) ->
   j.watch_for /^(([a-zA-Z_0-9]+):)?(.+)$/, (message) ->
     user = message.match_data[2] || message.user
-    console.log message.match_data
-    console.log user
 
     lastMessage = last_said[user]
 
