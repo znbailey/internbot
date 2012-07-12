@@ -8,8 +8,14 @@ module.exports = (robot) ->
     url = match[0]
 
     return if message.user.name is 'Parbot'
+    return if message.match(/.pardot.com/) isnt null
 
     Request.get url, (err, response, body) ->
-      title = $(body).find('title').text().replace /[\s\n\r\t]+/g, ' '
-      return if not title
-      req.send "Title: #{title}"
+      return if not body
+      try
+        title = $(body)?.find('title')?.text()?.replace /[\s\n\r\t]+/g, ' '
+        return if not title
+        req.send "Title: #{title}"
+      catch err
+        console.log err
+        return
