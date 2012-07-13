@@ -9,6 +9,7 @@ module.exports = (robot) ->
 
     return if message.user.name is 'Parbot'
     return if message.match(/.pardot.com/) isnt null
+    return if message.match(/pardot.atlassian.net/) isnt null
 
     Request.get url, (err, response, body) ->
       return if not body
