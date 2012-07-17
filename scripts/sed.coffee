@@ -18,7 +18,7 @@ module.exports = (robot) ->
     return if not lastMessage?
 
     command = "echo '#{lastMessage.replace /'/g, "'\"'\"'"}' | #{sed_binary} -e' #{result[1].replace /'/g, "'\"'\"'"}'"
-    exec command, (error, stdout, stderr) ->
+    exec command, { timeout: 10 }, (error, stdout, stderr) ->
       return if error
 
       sanitized_stdout = stdout.split(String.fromCharCode(10))[0]
