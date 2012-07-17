@@ -1,7 +1,7 @@
 {exec}   =  require  'child_process'
 
 last_said = new Array()
-sed_regexp = new RegExp "s/(([^/]|(\\\\/))*)/(([^/]|(\\\\/))*)/?"
+sed_regexp = new RegExp "s/(([^/]|(\\\\/))*)/(([^/]|(\\\\/))*)(/([g]*))?"
 
 module.exports = (robot) ->
   robot.hear /^(([a-zA-Z_0-9]+):)?\s*(.+)$/, (request) ->
@@ -16,10 +16,21 @@ module.exports = (robot) ->
 
     return if not lastMessage?
 
+    console.log result
     search = new RegExp result[1]
     replace = result[4]
+    flags = result[8]
 
-    message = lastMessage.replace search, replace
+    message = lastMessage
+
+    if flags?.search(/g/)?
+      before = null
+      while before != message
+        before = message
+        message = message.replace search, replace
+    else
+      message = message.replace search, replace, flags
+
     return if not message
     request.send message
     last_said[user] = message
