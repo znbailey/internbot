@@ -2,6 +2,8 @@
 Request  =  require  'request'
 $        =  require  'jquery'
 
+Request = Request.defaults {headers: {'User-Agent: internbot (https://gist.github.com/0c4348776ddeec695441)'}}
+
 module.exports = (robot) ->
   robot.hear /https?\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/, (req) ->
     {robot, message, match} = req

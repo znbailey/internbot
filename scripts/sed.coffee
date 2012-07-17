@@ -5,9 +5,10 @@ sed_regexp = /^(s[^a-zA-Z0-9].*)$/
 sed_binary = 'sed'
 
 module.exports = (robot) ->
-  robot.hear /^(([a-zA-Z_0-9]+):)?(.+)$/, (request) ->
+  robot.hear /^(([a-zA-Z_0-9]+):)?\s*(.+)$/, (request) ->
     {robot, message, match} = request
-    user = match[2] || message.user.name
+    message.user.name = message.user.name.toLowerCase()
+    user = match[2]?.toLowerCase() || message.user.name
 
     lastMessage = last_said[user]
 
