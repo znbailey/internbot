@@ -15,7 +15,7 @@
 
 module.exports = (robot) ->
   robot.respond /aww/i, (msg) ->
-    msg.http('http://www.reddit.com/r/aww.json').get() (err, res, body) ->
+    msg.http('http://www.reddit.com/r/aww.json').get (err, res, body) ->
       console.log body
       result = JSON.parse(body)
 

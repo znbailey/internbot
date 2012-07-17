@@ -1,18 +1,3 @@
-# Description:
-#   None
-#
-# Dependencies:
-#   None
-#
-# Configuration:
-#   None
-#
-# Commands:
-#   trap - Display an Admiral Ackbar piece of wonder
-#
-# Author:
-#   brilliantfantastic
-
 ackbars = [
   "http://dayofthejedi.com/wp-content/uploads/2011/03/171.jpg",
   "http://dayofthejedi.com/wp-content/uploads/2011/03/152.jpg",
