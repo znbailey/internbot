@@ -16,7 +16,6 @@ module.exports = (robot) ->
 
     return if not lastMessage?
 
-    console.log result
     search = new RegExp result[1]
     replace = result[4]
     flags = result[8]
@@ -29,7 +28,7 @@ module.exports = (robot) ->
         before = message
         message = message.replace search, replace
     else
-      message = message.replace search, replace, flags
+      message = message.replace search, replace
 
     return if not message
     request.send message
