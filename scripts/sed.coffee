@@ -1,8 +1,7 @@
 {exec}   =  require  'child_process'
 
 last_said = new Array()
-sed_regexp = /^(s[^a-zA-Z0-9].*)$/
-sed_binary = 'sed'
+sed_regexp = new RegExp "s/([^/]|\\/)*/([^/]|\\/)*/?"
 
 module.exports = (robot) ->
   robot.hear /^(([a-zA-Z_0-9]+):)?\s*(.+)$/, (request) ->
@@ -17,13 +16,16 @@ module.exports = (robot) ->
 
     return if not lastMessage?
 
-    command = "echo '#{lastMessage.replace /'/g, "'\"'\"'"}' | #{sed_binary} -e' #{result[1].replace /'/g, "'\"'\"'"}'"
-    exec command, { timeout: 10 }, (error, stdout, stderr) ->
-      return if error
+    search = new RegExp result[1]
+    replace = new RegExp result[2]
 
-      sanitized_stdout = stdout.split(String.fromCharCode(10))[0]
-      return if not sanitized_stdout?
+    console.log result
+    console.log match[3]
+    console.log sed_regexp
+    console.log search
+    console.log replace
 
-      request.send sanitized_stdout
-
-      last_said[user] = sanitized_stdout
+    message = lastMessage.replace search, replace
+    return if not message
+    request.send message
+    last_said[user] = message
