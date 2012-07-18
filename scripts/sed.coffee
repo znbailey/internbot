@@ -1,7 +1,7 @@
 {exec}   =  require  'child_process'
 
 last_said = new Array()
-sed_regexp = new RegExp "s/(([^/]|(\\\\/))*)/(([^/]|(\\\\/))*)(/([g]*))?"
+sed_regexp = new RegExp "^s/(([^/]|(\\\\/))*)/(([^/]|(\\\\/))*)(/([g]*))?$"
 
 module.exports = (robot) ->
   robot.hear /^(([a-zA-Z_0-9]+):)?\s*(.+)$/, (request) ->
