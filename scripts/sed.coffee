@@ -22,7 +22,7 @@ module.exports = (robot) ->
 
     message = lastMessage
 
-    if flags?.search(/g/)?
+    if flags? and flags.search(/g/)? isnt -1
       before = null
       while before != message
         before = message
