@@ -18,7 +18,7 @@ module.exports = (robot) ->
       return if not body
       try
         if message.match(/twitter.com\/[^\/]*\/status\/[\d]*$/) isnt null
-          tweet = $(body)?.find('js-tweet-text')?.text()?.replace /[\s\n\r\t]+/g, ' '
+          tweet = $(body)?.find('.js-tweet-text')?.text()?.replace /[\s\n\r\t]+/g, ' '
           return req.send "Tweet: #{tweet}" if tweet
         title = $(body)?.find('title')?.text()?.replace /[\s\n\r\t]+/g, ' '
         return if not title
