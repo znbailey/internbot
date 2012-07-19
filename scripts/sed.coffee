@@ -5,6 +5,7 @@ sed_regexp = new RegExp "^s/(([^/]|(\\\\/))*)/(([^/]|(\\\\/))*)(/([gi]*))?$"
 
 module.exports = (robot) ->
   robot.hear /^(([a-zA-Z_0-9]+):)?\s*(.+)$/, (request) ->
+    return ## Disable for now
     {robot, message, match} = request
     message.user.name = message.user.name.toLowerCase()
     user = match[2]?.toLowerCase() || message.user.name
