@@ -16,23 +16,10 @@ module.exports = (robot) ->
 
     return if not lastMessage?
 
-    search = new RegExp result[1]
+    search = new RegExp result[1], result[8]
     replace = result[4]
-    flags = result[8]
 
-    message = lastMessage
-
-    if flags? 
-      if flags.search(/i/) isnt -1
-        search = new RegExp result[1].toLowerCase()
-        message = message.toLowerCase()
-      if flags.search(/g/) isnt -1
-        before = null
-        while before != message
-          before = message
-          message = message.replace search, replace
-    else
-      message = message.replace search, replace
+    message = lastMessage.replace search, replace
 
     return if not message
     request.send message
