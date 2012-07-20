@@ -23,10 +23,10 @@ module.exports = (robot) ->
     message = lastMessage
 
     if flags? 
-      if flags.search(/i/)? isnt -1
+      if flags.search(/i/) isnt -1
         search = new RegExp result[1].toLowerCase()
         message = message.toLowerCase()
-      if flags.search(/g/)? isnt -1
+      if flags.search(/g/) isnt -1
         before = null
         while before != message
           before = message
