@@ -3,8 +3,6 @@ Request = require 'request'
 module.exports = (robot) ->
   robot.hear /aww/i, (msg) ->
     Request.get 'http://www.reddit.com/r/aww.json', (err, res, body) ->
-      console.log body
-
       result = JSON.parse(body) if typeof body is 'string'
 
       if result.data.children.count <= 0
