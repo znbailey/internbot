@@ -1,1 +1,13 @@
 
+
+export HUBOT_IRC_NICK=""
+export HUBOT_IRC_USERNAME=""
+export HUBOT_IRC_ROOMS=""
+#export HUBOT_IRC_ROOMS="#bots"
+export HUBOT_IRC_SERVER=""
+export HUBOT_IRC_PORT=""
+export HUBOT_IRC_USESSL=""
+export HUBOT_IRC_SERVER_FAKE_SSL=""
+
+nohup ./node_modules/hubot/bin/hubot -a irc 1>> log.txt &
+
