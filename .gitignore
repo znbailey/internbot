@@ -1,0 +1,8 @@
+.gitignore
+internbot.sh
+node_modules/
+test.sh
+internbot.log
+log.txt
+nohup.out
+run.sh
