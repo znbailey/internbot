@@ -15,22 +15,20 @@ module.exports = (robot) ->
     return if message.match(/pardot.atlassian.net/) isnt null
     return if message.match(/whattoe.at/) isnt null
 
-    console.log "Starting request"
-    Request.get url, (err, response, body) ->
-      console.log "Request returned"
+    Request.get url, (err, res, body) ->
       return if not body
+
+      console.log res.headers['content-type']
+
+      return if res.statusCode isnt 200 or not /text\/html/.test res.headers['content-type']
+
       try
-        console.log "jQuerying..."
         body = $ body
-        console.log "jQuerying done"
         if message.match(/twitter.com\/[^\/]*\/status\/[\d]*$/) isnt null
-          console.log "twitter matched, grabbing .js-tweet-text"
           tweet = body?.find('.js-tweet-text')?.text()?.replace /[\s\n\r\t]+/g, ' '
           return req.send "Tweet: #{tweet}" if tweet
-        console.log "no twitter matched, grabbing title"
         title = body?.find('title')?.text()?.replace /[\s\n\r\t]+/g, ' '
         return if not title
         req.send "Title: #{title}"
       catch err
-        console.log err
-        return
+        return console.log err
