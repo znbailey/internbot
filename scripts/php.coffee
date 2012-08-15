@@ -1,5 +1,5 @@
 Request = require 'request'
-$ = require 'jquery'
+Cheerio = require 'cheerio'
 
 clean = (str) ->
   str.replace(/(\s|\r|\n)+/g, ' ').replace(/(^\s)|(\s$)/g, '')
@@ -13,9 +13,9 @@ module.exports = (robot) ->
       if res.statusCode isnt 200 or not /text\/html/.test res.headers['content-type']
         return msg.send 'Could not find a page for that php function'
 
-      body = $(body)
-      proto = clean body.find('div.methodsynopsis.dc-description').text()
-      desc = clean body.find('p.para.rdfs-comment').text()
+      $ = Cheerio.load body
+      proto = clean $('div.methodsynopsis.dc-description').text()
+      desc = clean $('p.para.rdfs-comment').text()
 
       msg.send proto
       msg.send desc

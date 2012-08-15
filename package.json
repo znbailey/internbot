@@ -9,5 +9,6 @@
 		,"jquery":"1.7.x"
 		,"scraper":"0.0.x"
 		,"request":"2.10.x"
+		,"cheerio":"0.9.x"
 	}
 }

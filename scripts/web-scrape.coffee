@@ -1,6 +1,6 @@
 {exec}   =  require  'child_process'
 Request  =  require  'request'
-$        =  require  'jquery'
+Cheerio  =  require  'cheerio'
 
 Request = Request.defaults {headers: {'User-Agent: internbot (https://github.com/anthonymarion/internbot)'}}
 
@@ -23,11 +23,11 @@ module.exports = (robot) ->
       return if res.statusCode isnt 200 or not /text\/html/.test res.headers['content-type']
 
       try
-        body = $ body
+        $ = Cheerio.load body
         if message.match(/twitter.com\/[^\/]*\/status\/[\d]*$/) isnt null
-          tweet = body?.find('.js-tweet-text')?.first()?.text()?.replace /[\s\n\r\t]+/g, ' '
+          tweet = $('.js-tweet-text')?.first()?.text()?.replace /[\s\n\r\t]+/g, ' '
           return req.send "Tweet: #{tweet}" if tweet
-        title = body?.find('title')?.text()?.replace /[\s\n\r\t]+/g, ' '
+        title = $('title')?.text()?.replace /[\s\n\r\t]+/g, ' '
         return if not title
         req.send "Title: #{title}"
       catch err
