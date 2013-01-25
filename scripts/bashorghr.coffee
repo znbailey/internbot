@@ -12,13 +12,9 @@ getRandomInt = (min, max) ->
 
 module.exports = (robot) ->
   robot.hear /^!bash-hr$/, (msg) ->
-    { message } = msg
-    console.log robot.adapter
-    nick = message.user.name
-    #return robot.adapter.receive(new TextMessage({reply_to: nick, name: nick}, message.text)) if /^\#/.test msg.message.user.room
-    url = "http://bash.org/?random"
+    nick = msg.message.user.name
 
-    Request.get url, (err, res, body) ->
+    Request.get "http://bash.org/?random", (err, res, body) ->
       return if res.statusCode isnt 200 or not /text\/html/.test res.headers['content-type']
 
       $ = Cheerio.load body
@@ -31,4 +27,3 @@ module.exports = (robot) ->
         .value()
 
       return robot.adapter.bot.say(nick, quote)
-      #msg.send quote if quote
