@@ -9,13 +9,14 @@ T = new Twit
 
 Commands = [
   { command: /^!antijoke/, user: 'antijokecat' }
-  { command: /^!uberfact/, user: 'ubrerfacts' }
+  { command: /^!uberfact/, user: 'uberfacts' }
 ]
 
 module.exports = (robot) ->
   for command in Commands
-    robot.hear command.command, (msg) ->
-      T.get 'statuses/user_timeline', { screen_name: command.user }, (err, reply) ->
-        return console.log err if err
-        tweet = _(reply).chain().shuffle().first().value()?.text
-        msg.send tweet
+    do (command) ->
+      robot.hear command.command, (msg) ->
+        T.get 'statuses/user_timeline', { screen_name: command.user }, (err, reply) ->
+          return console.log err if err
+          tweet = _(reply).chain().shuffle().first().value()?.text
+          msg.send tweet
