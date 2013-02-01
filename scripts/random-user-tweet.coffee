@@ -14,6 +14,10 @@ Commands = [
   { command: /^!grimlock/, user: 'fakegrimlock' }
   { command: /^!nph/,      user: 'ActuallyNPH' }
   { command: /^!drunkhulk/, user: 'DrunkHulk' }
+  { command: /^!batman/, user: 'God_Damn_Batman' }
+  { command: /^!bender/, user: 'bender' }
+  { command: /^!deathstar/, user: 'DeathStarPR' }
+  { command: /^!yoda/, user: 'yoda' }
 ]
 
 module.exports = (robot) ->
