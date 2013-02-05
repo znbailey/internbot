@@ -30,7 +30,7 @@ module.exports = (robot) ->
           msg.send tweet
 
 
-  robot.hear /^!twitter (\w)/, (msg) ->
+  robot.hear /^!twitter (\w+)/, (msg) ->
     console.log 'Fetching recent tweets', msg.match[1]
     T.get 'statuses/user_timeline', { screen_name: msg.match[1], exclude_replies: 'true' }, (err, reply) ->
       return console.log err if err
